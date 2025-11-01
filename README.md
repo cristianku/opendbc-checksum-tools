@@ -67,19 +67,38 @@ This tool helps developers confirm that checksum functions implemented in `opend
 - Outputs detailed statistics and CSV files with matches/mismatches
 
 ### Batch Processing (Advanced)
-For checking **all messages with checksums** in your DBC at once, use the batch script:
+For checking **all messages with checksums** in your DBC at once, you can use one of the specialized batch scripts:
+
+#### 1. Messages Sent by Car (Original CAN Bus)
 ```bash
-jupyter notebook "checking all checksums batch.ipynb"
+jupyter notebook "checking all checksums batch sent by car.ipynb"
 ```
 
-This script:
+This script analyzes **messages sent directly by the car** on the original CAN buses (0-3):
 - Scans your entire DBC file for all messages containing checksum fields
-- Automatically detects the correct CAN bus for each message
+- Searches for messages on buses 0, 1, 2, 3 (car's original CAN buses)
+- Special handling for HS2_DAT_MDD_CMD_452 (0x452): forces bus 1 only
 - Processes all checksum-enabled messages in one run
-- Generates statistics for each message separately
-- Useful for validating your entire DBC checksum implementation at once
+- Generates comprehensive statistics with success/failure rates
+- Shows final aggregate summary with all messages analyzed
 
-**Configuration**: Only set `LOG_FILE` and `DBC_FILE` - the script finds all messages automatically!
+#### 2. Messages Sent by Panda (Forwarded by Device)
+```bash
+jupyter notebook "checking all checksums batch sent by PANDA.ipynb"
+```
+
+This script analyzes **messages forwarded by the Panda device** (buses >= 128):
+- Searches for messages on buses 128, 129, 130 (Panda forwarded buses)
+- Useful for verifying checksums on messages that Panda receives and retransmits
+- Same comprehensive statistics and analysis as the car version
+- Helps identify if checksum issues are related to message forwarding
+
+**Configuration**: Only set `LOG_FILE` and `DBC_FILE` - both scripts find all messages automatically!
+
+**Use Case**:
+- Use **"sent by car"** to verify original car messages and checksum implementation
+- Use **"sent by PANDA"** to verify messages forwarded by Panda device
+- Compare both outputs to identify discrepancies between original and forwarded messages
 
 ---
 
@@ -99,22 +118,26 @@ source openpilot/.venv/bin/activate
 ## 📁 Project Structure
 ```
 opendbc-checksum-verifier/
-├── checking checksum.ipynb              # Single message checksum validation
-├── checking all checksums batch.ipynb   # Batch processing for all messages
+├── checking checksum.ipynb                      # Single message checksum validation
+├── checking all checksums batch.ipynb           # Batch processing for all messages (legacy)
+├── checking all checksums batch sent by car.ipynb   # Batch: messages from car (bus 0-3)
+├── checking all checksums batch sent by PANDA.ipynb # Batch: messages from Panda (bus >=128)
 ├── python/
-│   └── psa_checksum.py                  # Checksum function (replace with yours!)
+│   └── psa_checksum.py                          # Checksum function (replace with yours!)
 ├── dbc/
-│   └── your_car.dbc                     # Your DBC file
+│   └── your_car.dbc                             # Your DBC file
 ├── logs/
-│   └── your_log.csv                     # CAN logs in CSV format (bus, addr, data, time)
+│   └── your_log.csv                             # CAN logs in CSV format (bus, addr, data, time)
 └── output/
-    ├── message_0xXXX_with_checksum.csv      # All messages with verification
-    └── message_0xXXX_checksum_FAILS.csv     # Only failed checksums
+    ├── message_0xXXX_with_checksum.csv          # All messages with verification
+    └── message_0xXXX_checksum_FAILS.csv         # Only failed checksums
 ```
 
 ### CSV Log Format
 Your CAN log CSV must have these columns:
-- `bus` - CAN bus number (0, 1, 2, etc.)
+- `bus` - CAN bus number
+  - **0-3**: Original car CAN buses (messages sent by car)
+  - **128-130**: Panda forwarded buses (messages retransmitted by Panda device)
 - `addr` - Message address in hex format (e.g., `0x452`)
 - `data` - Message data in hex format (e.g., `0x00000200`)
 - `time` - Timestamp in seconds
