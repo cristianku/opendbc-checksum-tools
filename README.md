@@ -66,6 +66,21 @@ This tool helps developers confirm that checksum functions implemented in `opend
 - It compares the **extracted checksum** from real CAN messages against the **calculated checksum** using your function
 - Outputs detailed statistics and CSV files with matches/mismatches
 
+### Batch Processing (Advanced)
+For checking **all messages with checksums** in your DBC at once, use the batch script:
+```bash
+jupyter notebook "checking all checksums batch.ipynb"
+```
+
+This script:
+- Scans your entire DBC file for all messages containing checksum fields
+- Automatically detects the correct CAN bus for each message
+- Processes all checksum-enabled messages in one run
+- Generates statistics for each message separately
+- Useful for validating your entire DBC checksum implementation at once
+
+**Configuration**: Only set `LOG_FILE` and `DBC_FILE` - the script finds all messages automatically!
+
 ---
 
 ## 🧩 Dependencies
@@ -84,13 +99,14 @@ source openpilot/.venv/bin/activate
 ## 📁 Project Structure
 ```
 opendbc-checksum-verifier/
-├── checking checksum.ipynb    # Main notebook for checksum validation
+├── checking checksum.ipynb              # Single message checksum validation
+├── checking all checksums batch.ipynb   # Batch processing for all messages
 ├── python/
-│   └── psa_checksum.py        # Checksum function (replace with yours!)
+│   └── psa_checksum.py                  # Checksum function (replace with yours!)
 ├── dbc/
-│   └── your_car.dbc           # Your DBC file
+│   └── your_car.dbc                     # Your DBC file
 ├── logs/
-│   └── your_log.csv           # CAN logs in CSV format (bus, addr, data, time)
+│   └── your_log.csv                     # CAN logs in CSV format (bus, addr, data, time)
 └── output/
     ├── message_0xXXX_with_checksum.csv      # All messages with verification
     └── message_0xXXX_checksum_FAILS.csv     # Only failed checksums
