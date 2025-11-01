@@ -31,7 +31,14 @@ This tool helps developers confirm that checksum functions implemented in `opend
 
 ## 🚀 Usage
 
-### Quick Start
+### Step 1: Export CAN logs from Cabana
+1. Go to [connect.comma.ai](https://connect.comma.ai) and find your drive
+2. Copy the route ID (e.g., `aa0ad8ba95ff270c|00000012--15c0b13b3a`)
+3. Open [Cabana](https://cabana.comma.ai) and paste the route ID
+4. Click **Export to CSV** to download the CAN log file
+5. Save the CSV file in the `logs/` directory
+
+### Step 2: Quick Start
 1. Clone this repository:
    ```bash
    git clone https://github.com/cristianku/opendbc-checksum-verifier.git
