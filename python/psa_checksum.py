@@ -15,24 +15,23 @@ def psa_checksum(address: int, sig, d: bytearray) -> int:
     # Return 2-bit checksum: [msb_parity, lsb_parity]
     return (msb_parity << 1) | lsb_parity
 
+  # --- SPECIAL CASE: 0x305 STEERING_ALT ---
+  if address == 0x305:
+    # use bytes 2..5 only (indexes 2,3,4,5)
+    d_305 = bytearray(d[2:6])
+    # checksum is in lower nibble of original byte 4 → here index 2
+    d_305[2] &= 0xF0
+    checksum = sum((b >> 4) + (b & 0xF) for b in d_305)
+    return (0x7 - checksum) & 0xF
+
   chk_ini = {0x452: 0x4,
              0x38D: 0x7,
              0x42D: 0xC,
              0x2B6: 0xC, # 694 decimal - HS2_DYN1_MDD_ETAT_2B6 - override 0xC su ECU MDD 2018+)
              0x2F6: 0x8,  # 758 decimal - messagmessage ACC2
-             0x305: 0x4  # 773 decimal - STEERING_ALT
              }.get(address, 0xB)
   byte = sig.start // 8
-  # d[byte] &= 0x0F if sig.start % 8 >= 4 else 0xF0
-  if address == 0x305:
-    # For 0x305 the checksum is in the LOWER nibble → clear the lower nibble
-    if sig.start % 8 >= 4:
-      d[byte] &= 0xF0
-    else:
-      d[byte] &= 0x0F
-  else:
-    # Default: if checksum is in the upper nibble, clear upper; if in lower, clear lower
-    d[byte] &= 0x0F if sig.start % 8 >= 4 else 0xF0
+  d[byte] &= 0x0F if sig.start % 8 >= 4 else 0xF0
 
   checksum = sum((b >> 4) + (b & 0xF) for b in d)
   return (chk_ini - checksum) & 0xF
