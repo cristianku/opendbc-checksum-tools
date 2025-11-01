@@ -72,9 +72,27 @@ source openpilot/.venv/bin/activate
 
 ---
 
-## 📁 Files
-- `checking checksum.ipynb` → main notebook for checksum validation  
-- `logs/` *(optional)* → CAN log samples or extracted messages for testing  
+## 📁 Project Structure
+```
+opendbc-checksum-verifier/
+├── checking checksum.ipynb    # Main notebook for checksum validation
+├── python/
+│   └── psa_checksum.py        # Checksum function (replace with yours!)
+├── dbc/
+│   └── your_car.dbc           # Your DBC file
+├── logs/
+│   └── your_log.csv           # CAN logs in CSV format (bus, addr, data, time)
+└── output/
+    ├── message_0xXXX_with_checksum.csv      # All messages with verification
+    └── message_0xXXX_checksum_FAILS.csv     # Only failed checksums
+```
+
+### CSV Log Format
+Your CAN log CSV must have these columns:
+- `bus` - CAN bus number (0, 1, 2, etc.)
+- `addr` - Message address in hex format (e.g., `0x452`)
+- `data` - Message data in hex format (e.g., `0x00000200`)
+- `time` - Timestamp in seconds
 
 ---
 
