@@ -29,6 +29,7 @@ def psa_checksum(address: int, sig, d: bytearray) -> int:
     return 0
 
   chk_ini = {
+             0x1CD: 0x5,  # 461 decimal - ESP
              0x2B6: 0xC,  # 694 decimal - HS2_DYN1_MDD_ETAT_2B6 - override 0xC su ECU MDD 2018+)
              0x2F6: 0x8,  # 758 decimal - messagmessage ACC2
              0x38D: 0x7,  #  909 - HS2_DYN_ABR_38D
