@@ -162,7 +162,7 @@ BO_ 773 STEERING_ALT: 7 XXX
  SG_ ANGLE : 7|16@0- (0.1,0) [-3276.8|3276.7] "degrees" XXX
  SG_ RATE : 23|8@0+ (1,0) [0|255] "" XXX
  SG_ RATE_SIGN : 31|1@0+ (1,0) [0|1] "" XXX
- SG_ x_COUNTER : 35|4@0+ (1,0) [0|255] "" XXX
+ SG_ COUNTER : 35|4@0+ (1,0) [0|255] "" XXX
  SG_ CHECKSUM : 39|4@0+ (1,0) [0|15] "" XXX
  SG_ RATE_ALT : 47|8@0+ (1,0) [0|255] "" XXX
 
@@ -255,6 +255,23 @@ BO_ 904 Dyn_Veh: 7 CMM___Motor_SG
  SG_ P062_sECU : 23|16@0+ (0.1,0) [0|6553.5] "m" Vector__XXX
  SG_ P066_aECU : 32|8@1+ (0.08,-14) [-14|6.32] "m/s**2" Vector__XXX
 
+BO_ 909 HS2_DYN_ABR_38D: 8 UC_FREIN
+ SG_ VITESSE_VEHICULE_ROUES : 7|16@0+ (0.01,0) [0|655.34] "km/h" CMF,CMM,BV,BSI,HCU1,ARTIV,BVN,AVAS
+ SG_ DISTANCE_ROUES : 23|16@0+ (0.1,0) [0|6553.5] "m" CMF,CMM,BV,BSI,HCU1,ARTIV,BVN,AVAS
+ SG_ P052_Com_aLng : 32|8@1+ (0.08,-14) [-14|6.32] "m/s**2" Vector__XXX
+ SG_ ACCEL_LONGI_ROUES : 39|8@0+ (0.08,-14) [-14|6.32] "m/s2" CMF,CMM,BV,BSI,HCU1,ARTIV,BVN,AVAS
+ SG_ CHECKSUM : 43|4@0+ (1,0) [0|7] "" CMF,CMM,BV,BSI,HCU1,ARTIV,BVN,AVAS
+ SG_ COUNTER : 47|4@0+ (1,0) [0|15] "" CMF,CMM,BV,BSI,HCU1,ARTIV,BVN,AVAS
+ SG_ VHL_MVT : 49|2@0+ (1,0) [0|3] "" CMF,CMM,BV,BSI,HCU1,ARTIV,BVN,AVAS
+ SG_ VVH_INDISP : 51|2@0+ (1,0) [0|3] "" CMF,CMM,BV,BSI,HCU1,ARTIV,BVN,AVAS
+ SG_ SENS_ROULAGE : 53|2@0+ (1,0) [0|3] "" CMF,CMM,BV,BSI,HCU1,ARTIV,BVN,AVAS
+ SG_ AUTOR_ARRET_HILL_STT : 54|1@0+ (1,0) [0|1] "" CMF,CMM,BV,BSI,HCU1,ARTIV,BVN,AVAS
+ SG_ REQ_LAMPE_WARNING : 55|1@0+ (1,0) [0|1] "" CMF,CMM,BV,BSI,HCU1,ARTIV,BVN,AVAS
+ SG_ HADC_FAULTY : 58|2@0+ (1,0) [0|3] "" CMF,CMM,BV,BSI,HCU1,ARTIV,BVN,AVAS
+ SG_ HADC_STATUS : 60|2@0+ (1,0) [0|3] "" CMF,CMM,BV,BSI,HCU1,ARTIV,BVN,AVAS
+ SG_ HADC_SPEED_CONDITION : 61|1@0+ (1,0) [0|1] "" CMF,CMM,BV,BSI,HCU1,ARTIV,BVN,AVAS
+ SG_ HADC_CLUTCH_CONDITION : 63|2@0+ (1,0) [0|3] "" CMF,CMM,BV,BSI,HCU1,ARTIV,BVN,AVAS
+
 BO_ 941 Dyn_EasyMove: 8 CDS___Fahrdynamikregelung
  SG_ P299_Com_bCrCtlInhib : 17|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ P337_Com_stPrkBrk : 24|3@1+ (1,0) [0|0] "" Vector__XXX
@@ -279,8 +296,8 @@ BO_ 973 Dyn2_FRE: 8 ABS___Antiblockiersystem
 
 BO_ 1010 LANE_KEEP_ASSIST: 8 XXX
  SG_ DRIVE : 6|1@0+ (1,0) [0|1] "" XXX
- SG_ x_COUNTER : 11|4@0+ (1,0) [0|15] "" XXX
- SG_ x_CHECKSUM : 15|4@0+ (1,0) [0|15] "" XXX
+ SG_ COUNTER : 11|4@0+ (1,0) [0|15] "" XXX
+ SG_ CHECKSUM : 15|4@0+ (1,0) [0|15] "" XXX
  SG_ unknown2 : 23|8@0+ (1,0) [0|255] "" XXX
  SG_ TORQUE : 31|11@0- (1,0) [0|2047] "" XXX
  SG_ LANE_DEPARTURE : 33|2@0+ (1,0) [0|3] "" XXX
@@ -795,6 +812,8 @@ CM_ SG_ 264 P080_Application "P080  supplier application";
 CM_ SG_ 264 P081_Version "P081  Software version";
 CM_ SG_ 264 P082_Edition "P082  Software issue";
 CM_ SG_ 264 P083_Calibration "P083  Calibration issue";
+CM_ SG_ 461 CHECKSUM "CHK INI = 0x5";
+
 CM_ BO_ 520 "ID 208:  Engine Dynamic Frame (Period time 10 ms)";
 CM_ SG_ 520 P000_Com_nEng "P000  Motordrehzahl";
 CM_ SG_ 520 P003_Com_trqActOut "P003  Actual torque";
@@ -811,9 +830,11 @@ CM_ SG_ 520 P198_ActMod_trqClthTraIntv "P084  Vorweggenommenes Drehmoment";
 CM_ SG_ 694 ACC_STATUS "Indicates the operational state of the ACC system.";
 CM_ SG_ 694 DYN_ACC_CHECKSUM "CHK_INI = 0x3 override 0xC su ECU MDD 2018+)";
 CM_ SG_ 694 DYN_ACC_PROCESS_COUNTER "This counter increments from 0 to 15 at each activation of the calculation process.";
+CM_ SG_ 694 CHECKSUM "CHK INI = 0xC";
 CM_ SG_ 757 ANGLE "asymmetric, could be init";
 CM_ SG_ 758 CHECKSUM_TRANSM_DYN_ACC2 "CHK_INI = 0x8";
 CM_ SG_ 758 PROCESS_COUNTER_4B_ACC2 "This counter increments from 0 to 15 at each activation of the calculation process.";
+CM_ SG_ 758 CHECKSUM "CHK INI = 0x8";
 CM_ SG_ 773 ANGLE "-565 to 560, seems like estimate and not init";
 CM_ SG_ 773 RATE_SIGN "1=moving clockwise, 0=moving anticlockwise";
 CM_ SG_ 773 CHECKSUM "CHK_INI = 0x4; lower nibble (bit 39|4), standard PSA nibble-sum checksum initialized with 0x4";
@@ -852,6 +873,7 @@ CM_ SG_ 904 P062_sECU "P062 odometer by engine ECU";
 CM_ SG_ 904 P066_aECU "P066 longitudinal acceleration by engine ECU";
 CM_ BO_ 909 "ID 38D: ABS Vehicle Dynamic Frame (Period time 40 ms)";
 CM_ SG_ 909 P052_Com_aLng "P052 longitudinal acceleration (FrmMng_a)";
+CM_ SG_ 909 CHECKSUM "CHK INI = 0x7";
 CM_ BO_ 969 "Pour application MCP SSTG";
 CM_ SG_ 1010 TORQUE "Set to ~2043 when active";
 CM_ SG_ 1010 LANE_DEPARTURE "UNUSED in HDA";
@@ -868,6 +890,7 @@ CM_ SG_ 1074 P249_Com_stEngStopReq "Engine stop request";
 CM_ SG_ 1074 P216_Com_bSiaWkUp "Immobilizer anticipation with wake up";
 CM_ SG_ 1074 P214_Com_stMnWkUp "Main wake-up (RCD )";
 CM_ SG_ 1074 P253_Com_bEngPrepReq "Engine preparation request";
+CM_ SG_ 1069 CHECKSUM "CHK INI = 0xC";
 CM_ BO_ 1101 "ID 44D: Rear unfiltered wheel speeds, used for EasyMove";
 CM_ SG_ 1101 P330_VehV_vWhlRrL "P010  vehicle speed of ABS. This signal is loaded into VSSCD_v";
 CM_ SG_ 1101 P331_VehV_vWhlRrR "P010  vehicle speed of ABS. This signal is loaded into VSSCD_v";
@@ -875,7 +898,7 @@ CM_ SG_ 1106 LONGITUDINAL_REGULATION_TYPE "Defines if the system is in RVV (Vehi
 CM_ SG_ 1106 FRONT_WIPER_STATUS "Emitted when the rain sensor is active.";
 CM_ SG_ 1106 SPEED_SETPOINT "Setpoint or limit: based on the value of the 'requested speed type' bit.";
 CM_ SG_ 1106 CHECKSUM_CONS_RVV_LVV2 "Used to secure the RVV or LVV setpoint sent via the CAN network (signal SPEED_SETPOINT).";
-CM_ SG_ 1106 CHECKSUM "CHK_INI = 0xB";
+CM_ SG_ 1106 CHECKSUM "CHK_INI = 0x4";
 CM_ SG_ 1128 P247_Com_stStaFunc "CMM DAMP function state";
 CM_ SG_ 1128 P246_Com_bStaPrt "Starter protection";
 CM_ SG_ 1128 P245_Com_stRedBrkPlaus "Uncertain redendant brake contact";
