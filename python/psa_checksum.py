@@ -15,14 +15,10 @@ def psa_checksum(address: int, sig, d: bytearray) -> int:
     # Return 2-bit checksum: [msb_parity, lsb_parity]
     return (msb_parity << 1) | lsb_parity
 
-  # --- SPECIAL CASE: 0x305 STEERING_ALT ---
+  # --- SPECIAL CASE: 0x305 (STEERING_ALT) ---
   if address == 0x305:
-    # use bytes 2..5 only (indexes 2,3,4,5)
-    d_305 = bytearray(d[2:6])
-    # checksum is in lower nibble of original byte 4 → here index 2
-    d_305[2] &= 0xF0
-    checksum = sum((b >> 4) + (b & 0xF) for b in d_305)
-    return (0x7 - checksum) & 0xF
+    # "checksum" is just the upper nibble of byte 4
+    return (d[4] >> 4) & 0xF
 
   chk_ini = {0x452: 0x4,
              0x38D: 0x7,
