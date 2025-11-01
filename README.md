@@ -58,8 +58,7 @@ source openpilot/.venv/bin/activate
 
 ## 📁 Files
 - `checking checksum.ipynb` → main notebook for checksum validation  
-- `sample_data/` *(optional)* → CAN log samples or extracted messages for testing  
-- `results/` *(optional)* → output comparison reports  
+- `logs/` *(optional)* → CAN log samples or extracted messages for testing  
 
 ---
 
