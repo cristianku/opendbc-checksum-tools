@@ -21,13 +21,13 @@ def psa_checksum(address: int, sig, d: bytearray) -> int:
     return (d[4] >> 4) & 0xF
 
   # --- 0x3AD: this ECUs always sends 0 in that field ---
-  if address == 0x3AD or 0x3F2:
+  if address in (0x3AD, 0x3F2):  # ✅ CORRETTO
     return 0
   
   chk_ini = {0x452: 0x4,
              0x38D: 0x7,
              0x42D: 0xC,
-             0x2B6: 0x3, # 694 decimal - HS2_DYN1_MDD_ETAT_2B6 - override 0xC su ECU MDD 2018+)
+             0x2B6: 0xC, # 694 decimal - HS2_DYN1_MDD_ETAT_2B6 - override 0xC su ECU MDD 2018+)
              0x2F6: 0x8,  # 758 decimal - messagmessage ACC2
              }.get(address, 0xB)
   byte = sig.start // 8
