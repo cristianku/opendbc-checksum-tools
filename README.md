@@ -28,18 +28,34 @@ This tool helps developers confirm that checksum functions implemented in `opend
 ---
 
 ## 🚀 Usage
+
+### Quick Start
 1. Clone this repository:
    ```bash
    git clone https://github.com/cristianku/opendbc-checksum-verifier.git
    cd opendbc-checksum-verifier
    ```
 
-2. Open the Jupyter notebook:
+2. **Replace the checksum function** with your own implementation:
+   - Edit `python/psa_checksum.py` (or create your own module)
+   - Implement your car's checksum algorithm
+
+3. **Configure the notebook** (`checking checksum.ipynb`):
+   - Set `MESSAGE_ID` to the hex address of the message you want to check (e.g., `0x452`)
+   - Set `DBC_FILE` to your DBC file path
+   - Set `LOG_FILE` to your CAN log CSV file
+   - Set `BUS` to the correct CAN bus number
+
+4. **Run the notebook**:
    ```bash
    jupyter notebook "checking checksum.ipynb"
    ```
+   The script will **automatically detect all signals** in your message that contain the word "CHECKSUM" or "CRC" and verify each one.
 
-3. Run all cells to execute the checksum comparison tests.
+### How It Works
+- The script reads your **DBC file** and automatically finds all signals with "CHECKSUM" or "CRC" in the name
+- It compares the **extracted checksum** from real CAN messages against the **calculated checksum** using your function
+- Outputs detailed statistics and CSV files with matches/mismatches
 
 ---
 
