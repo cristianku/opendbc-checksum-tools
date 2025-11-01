@@ -20,10 +20,12 @@ This tool helps developers confirm that checksum functions implemented in `opend
 ---
 
 ## ⚙️ Features
-- Load CAN messages and DBC definitions.  
-- Compute checksums using OpenDBC logic.  
-- Compare against expected checksums captured from real vehicle logs.  
-- Identify mismatches and highlight possible implementation issues.  
+- **Automatic checksum detection**: Finds all signals with "CHECKSUM" or "CRC" in the name from your DBC file
+- **Multiple checksums support**: Handles messages with multiple checksum fields simultaneously
+- **Batch verification**: Processes thousands of CAN messages from logs
+- **Detailed statistics**: Shows success/failure rate for each checksum field
+- **CSV export**: Generates reports with all messages and a separate file for failures only
+- **Customizable**: Works with any car brand - just plug in your checksum function and DBC file
 
 ---
 
