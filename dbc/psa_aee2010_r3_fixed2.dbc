@@ -809,7 +809,7 @@ CM_ SG_ 520 P042_Inm_bCanMon "P042  CAN-Fehlerbehandlung im Startfall mit Hilfe 
 CM_ SG_ 520 P127_EGT_st_Bit30 "P127: Regeneration aid by electric consumers (engine load increase).";
 CM_ SG_ 520 P198_ActMod_trqClthTraIntv "P084  Vorweggenommenes Drehmoment";
 CM_ SG_ 694 ACC_STATUS "Indicates the operational state of the ACC system.";
-CM_ SG_ 694 DYN_ACC_CHECKSUM "CHK_INI = 0x3";
+CM_ SG_ 694 DYN_ACC_CHECKSUM "CHK_INI = 0x3 override 0xC su ECU MDD 2018+)";
 CM_ SG_ 694 DYN_ACC_PROCESS_COUNTER "This counter increments from 0 to 15 at each activation of the calculation process.";
 CM_ SG_ 757 ANGLE "asymmetric, could be init";
 CM_ SG_ 758 CHECKSUM_TRANSM_DYN_ACC2 "CHK_INI = 0x8";
