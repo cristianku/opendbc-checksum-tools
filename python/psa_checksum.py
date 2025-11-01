@@ -20,6 +20,10 @@ def psa_checksum(address: int, sig, d: bytearray) -> int:
     # "checksum" is just the upper nibble of byte 4
     return (d[4] >> 4) & 0xF
 
+  # --- 0x3AD: this ECU always sends 0 in that field ---
+  if address == 0x3AD:
+    return 0
+  
   chk_ini = {0x452: 0x4,
              0x38D: 0x7,
              0x42D: 0xC,
