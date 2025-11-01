@@ -20,7 +20,7 @@ def psa_checksum(address: int, sig, d: bytearray) -> int:
              0x42D: 0xC,
              0x2B6: 0xC, # 694 decimal - HS2_DYN1_MDD_ETAT_2B6 - override 0xC su ECU MDD 2018+)
              0x2F6: 0x8,  # 758 decimal - messagmessage ACC2
-             0x305: 0x2  # 773 decimal - STEERING_ALT
+             0x305: 0x4a  # 773 decimal - STEERING_ALT
              }.get(address, 0xB)
   byte = sig.start // 8
   d[byte] &= 0x0F if sig.start % 8 >= 4 else 0xF0
