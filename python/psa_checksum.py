@@ -22,12 +22,6 @@ def psa_checksum(address: int, sig, d: bytearray) -> int:
     # "checksum" is just the upper nibble of byte 4
     return (d[4] >> 4) & 0xF
 
-  # --- 0x3AD: this ECUs always sends 0 in that field ---
-  # HS2_DAT_MDD_CMD_452 = 1106 / 0x3AD
-  # LANE_KEEP_ASSIST    = 1010 / 0x3F2
-  if address in (0x3AD,):
-    return 0
-
   chk_ini = {
              0x1CD: 0x5,  # 461 decimal - ESP
              0x2B6: 0xC,  # 694 decimal - HS2_DYN1_MDD_ETAT_2B6 - override 0xC su ECU MDD 2018+)
