@@ -23,6 +23,13 @@ def psa_checksum(address: int, sig, d: bytearray) -> int:
     # "checksum" is just the upper nibble of byte 4
     return (d[4] >> 4) & 0xF
 
+  # --- SPECIAL CASE: 0x3AD (Dyn_EasyMove) ---
+  # P299_Com_bCrCtlInhib is NOT a calculated checksum but a control flag
+  # It's always 0 in real data (Cruise Control Inhibit flag)
+  # This message does not have a traditional PSA checksum
+  if address == 0x3AD:
+    return 0
+      
   chk_ini = {
              0x1CD: 0x5,  # 461 decimal - ESP
              0x2B6: 0xC,  # 694 decimal - HS2_DYN1_MDD_ETAT_2B6 - override 0xC su ECU MDD 2018+)
@@ -32,8 +39,8 @@ def psa_checksum(address: int, sig, d: bytearray) -> int:
              0x452: 0x4   # 1106 - HS2_DAT_MDD_CMD_452
              }.get(address, 0xB)
 
-  byte = sig.start_bit // 8
-  d[byte] &= 0x0F if sig.start_bit % 8 >= 4 else 0xF0
+  byte = sig.start // 8
+  d[byte] &= 0x0F if sig.start % 8 >= 4 else 0xF0
 
   checksum = sum((b >> 4) + (b & 0xF) for b in d)
   return (chk_ini - checksum) & 0xF
